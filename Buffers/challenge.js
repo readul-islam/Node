@@ -8,4 +8,4 @@ buff[0] = 0x48
 buff[1] = 0x69
 buff[2] = 0x21;
 
-console.log(buff);
+console.log(buff.toString("utf8"));
