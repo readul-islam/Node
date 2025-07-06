@@ -41,3 +41,4 @@ fs__.copyFileSync("command.txt", "sync1.txt");
 const endSync = performance.now();
 const durationSync = endSync - startSync;
 console.log(`File copied successfully in ${durationSync} milliseconds`);
+// File copied successfully in 0.1261669999999988 milliseconds
