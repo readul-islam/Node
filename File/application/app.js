@@ -21,6 +21,7 @@ const fs = require("fs/promises");
       if (event.eventType === "change") {
         // get file size in bytes
         const stat = await commandFileHandler.stat();
+        console.log(stat);
         
         // we want to read the content
         const content = await commandFileHandler.read(Buffer.alloc(stat.size));
