@@ -76,6 +76,9 @@ const renameFileHandler = async (oldPath, newPath) => {
   }
 };
 
+// write a file handler
+ 
+
 (async () => {
   try {
     const commandFileHandler = await fs.open("command.txt", "r");
