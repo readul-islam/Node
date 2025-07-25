@@ -57,30 +57,24 @@ const fs = require("node:fs/promises");
 (async () => {
   console.time("writeMany");
   let i = 0;
-  const fileHandler = await fs.open("text.txt", "w");
+  const fileHandler = await fs.open("../readable-stream/src.txt", "w");
   const stream = fileHandler.createWriteStream();
 
-//   console.log(stream.writableHighWaterMark);
-//   console.log(stream.writableLength);
+  //   console.log(stream.writableHighWaterMark);
+  //   console.log(stream.writableLength);
 
   function writeMany() {
     while (i < 10000000) {
-
       const buffer = new Buffer.from(` ${i} `, "utf-8");
       if (i === 9999999) {
         stream.end(buffer);
         return;
       }
       if (stream.write(buffer)) {
-          i++;
-        
-        
-    }else{
+        i++;
+      } else {
         break;
-    };
-     
-
-     
+      }
     }
   }
   writeMany();
