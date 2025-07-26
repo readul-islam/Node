@@ -87,3 +87,7 @@ stream.end();
 stream.on("drain", () => {
   console.log("stream drained, you can write more data now");
 });
+
+stream.on("finish", () => {
+  console.log("stream finished writing data");
+});
