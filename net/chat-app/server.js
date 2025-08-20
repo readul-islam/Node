@@ -13,13 +13,18 @@ server.on("connection", (socket) => {
     socket.remoteAddress,
     socket.remotePort
   );
+
+  const clientId = clients.length + 1;
+  socket.write(`@User_id: ${clientId}\n`);
+
+
   socket.on("data", (data) => {
-    clients.map((skt) => {
-      skt.write(data);
+    clients.map((client) => {
+      client.socket.write(data);
     });
   });
 
-  clients.push(socket);
+  clients.push({id: clientId, socket:socket});
 });
 
 server.listen(3000, "127.0.0.1", () => {

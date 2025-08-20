@@ -5,6 +5,22 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
+const clearLine = (dir) => {
+  return new Promise((resolve) => {
+    process.stdout.clearLine(dir, () => {
+      resolve();
+    });
+  });
+};
+
+const moveCursor = (x, y) => {
+  return new Promise((resolve) => {
+    process.stdout.moveCursor(x, y, () => {
+      resolve();
+    });
+  });
+};
+let id;
 const socket = net.createConnection(
   { host: "127.0.0.1", port: 3000 },
   async () => {
@@ -13,14 +29,34 @@ const socket = net.createConnection(
       socket.remoteAddress,
       socket.remotePort
     );
-    const message = await rl.question("Enter a message > ");
 
-    socket.write(message);
+    const ask = async () => {
+      const message = await rl.question("Enter a message > ");
+      await moveCursor(0, -1);
+      await clearLine(0);
+
+      socket.write(message);
+    };
+
+    // ask();
+
+    socket.on("data", async (data) => {
+      if (data.toString().includes("@User_id:")) {
+        id = data.toString().split(":")[1].trim();
+        console.log(`You are connected as User ID: ${id}`);
+        
+        ask();
+        
+      } else {
+        await moveCursor(0, -1);
+        await clearLine(0);
+        console.log(data.toString());
+        ask();
+      }
+    });
   }
 );
-socket.on("data", (data) => {
-  console.log(data.toString());
-});
+
 socket.on("end", () => {
   console.log("Disconnected from server");
 });
