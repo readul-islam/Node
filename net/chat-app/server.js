@@ -15,7 +15,7 @@ server.on("connection", (socket) => {
   );
 
   const clientId = clients.length + 1;
-
+//Broadcasting a message to everyone when someone join the chat room
   clients.map((client) => {
     // send the new client its ID
     client.socket.write(`User ${client.id} is joined!`);
@@ -31,7 +31,7 @@ server.on("connection", (socket) => {
     clients.map((client) => {
       client.socket.write(`User ${id}: ${message}`);
     });
-
+//Broadcasting a message to everyone when someone leaves the chat room
     socket.on("end", () => {
       clients.map((client) => {
         client.socket.write(`User ${client.id}  left!`);
