@@ -19,8 +19,11 @@ server.on("connection", (socket) => {
 
 
   socket.on("data", (data) => {
+    const dataString = data.toString('utf-8');
+    const id = dataString.substring(0, dataString.indexOf('-'));
+    const message = dataString.substring(dataString.indexOf('-message') + 9);
     clients.map((client) => {
-      client.socket.write(data);
+      client.socket.write(`User ${id}: ${message}`);
     });
   });
 

@@ -35,24 +35,22 @@ const socket = net.createConnection(
       await moveCursor(0, -1);
       await clearLine(0);
 
-      socket.write(message);
+      socket.write(`${id}-message-${message}`);
     };
 
     // ask();
 
     socket.on("data", async (data) => {
+      console.log();
+      await moveCursor(0, -1);
+      await clearLine(0);
       if (data.toString().includes("@User_id:")) {
         id = data.toString().split(":")[1].trim();
-        console.log(`You are connected as User ID: ${id}`);
-        
-        ask();
-        
+        console.log(`You are connected as User ID: ${id}\n`);
       } else {
-        await moveCursor(0, -1);
-        await clearLine(0);
-        console.log(data.toString());
-        ask();
+        console.log(data.toString('utf-8'));
       }
+      ask();
     });
   }
 );
