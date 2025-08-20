@@ -32,7 +32,9 @@ const socket = net.createConnection(
 
     const ask = async () => {
       const message = await rl.question("Enter a message > ");
+       // move the cursor one line up
       await moveCursor(0, -1);
+      // clear the line that cursor just moved
       await clearLine(0);
 
       socket.write(`${id}-message-${message}`);
@@ -41,8 +43,11 @@ const socket = net.createConnection(
     // ask();
 
     socket.on("data", async (data) => {
+      // log an empty line
       console.log();
+      // move the cursor one line up
       await moveCursor(0, -1);
+      // clear the line that cursor just moved
       await clearLine(0);
       if (data.toString().includes("@User_id:")) {
         id = data.toString().split(":")[1].trim();
